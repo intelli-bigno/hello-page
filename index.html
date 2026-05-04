@@ -2,9 +2,288 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>안녕하세요</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INTELLIEFFECT Agent</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #7c6af7;
+      --accent-dim: rgba(124, 106, 247, 0.12);
+      --text: #e2e2f0;
+      --muted: #6b6b80;
+      --green: #4ade80;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* grid bg */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,106,247,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,106,247,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    /* header */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid rgba(124,106,247,0.3);
+      border-radius: 99px;
+      padding: 4px 12px;
+      margin-bottom: 32px;
+      letter-spacing: 0.08em;
+    }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #a78bfa, #7c6af7 40%, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 60px;
+      max-width: 520px;
+    }
+
+    /* divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 48px 0;
+    }
+
+    /* section label */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(124,106,247,0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-icon { font-size: 22px; margin-bottom: 10px; }
+    .card-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+    .card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* stack list */
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(124,106,247,0.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+    }
+
+    /* principle block */
+    .principles { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
+
+    .principle {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .principle-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      padding-top: 2px;
+      min-width: 20px;
+    }
+
+    .principle-text { font-size: 13px; color: var(--text); }
+    .principle-text strong { color: #fff; display: block; margin-bottom: 2px; font-size: 13px; }
+
+    /* footer */
+    .footer {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
 </head>
 <body>
-  <h1>안녕하세요</h1>
+<div class="wrap">
+
+  <div class="badge">
+    <span class="dot"></span>
+    INTELLIEFFECT MAIN AGENT · ACTIVE
+  </div>
+
+  <h1>Company-wide AI.<br><span>Built for AWC.</span></h1>
+  <p class="subtitle">
+    인텔리이펙트(주)의 회사 전용 에이전트. 조직·고객·의사결정 정보를 단일 컨텍스트로 다루며, 이사님의 판단을 빠르게 보조합니다.
+  </p>
+
+  <div class="label">역할 / Role</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <div class="card-title">Company KB</div>
+      <div class="card-desc">법인 정보, 팀 구성, 채널, 의사결정 히스토리를 기억</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤝</div>
+      <div class="card-title">Client Intelligence</div>
+      <div class="card-desc">영업 파이프라인 7건 + 포트폴리오 17개사 추적</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗄️</div>
+      <div class="card-title">DB & Vault Sync</div>
+      <div class="card-desc">Supabase 스키마 · Obsidian 노트와 연결된 지식 구조</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">Dev Execution</div>
+      <div class="card-desc">코드 작성, 마이그레이션, 배포까지 직접 실행</div>
+    </div>
+  </div>
+
+  <div class="label">스택 / Stack</div>
+  <div class="stack">
+    <span class="tag">Claude Sonnet</span>
+    <span class="tag">Supabase MCP</span>
+    <span class="tag">GitHub CLI</span>
+    <span class="tag">Obsidian Vault</span>
+    <span class="tag">Edge Functions</span>
+    <span class="tag">PostgreSQL</span>
+    <span class="tag">Deno</span>
+    <span class="tag">TypeScript</span>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="label">작동 원칙 / Principles</div>
+  <div class="principles">
+    <div class="principle">
+      <span class="principle-num">01</span>
+      <div class="principle-text">
+        <strong>Think Before Coding</strong>
+        가정을 먼저 명시. 여러 해석이 있으면 선택하지 않고 제시.
+      </div>
+    </div>
+    <div class="principle">
+      <span class="principle-num">02</span>
+      <div class="principle-text">
+        <strong>Simplicity First</strong>
+        문제를 푸는 최소한의 코드. 추측성 기능은 없음.
+      </div>
+    </div>
+    <div class="principle">
+      <span class="principle-num">03</span>
+      <div class="principle-text">
+        <strong>Surgical Changes</strong>
+        요청한 것만 건드림. 인접 코드·포맷은 손대지 않음.
+      </div>
+    </div>
+    <div class="principle">
+      <span class="principle-num">04</span>
+      <div class="principle-text">
+        <strong>Goal-Driven</strong>
+        태스크를 검증 가능한 목표로 변환하고 단계별 실행.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    INTELLIEFFECT · AWC · intelli-bigno · 2026
+  </div>
+
+</div>
 </body>
 </html>
